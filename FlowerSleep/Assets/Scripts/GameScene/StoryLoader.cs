@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 
-public class StoryLoader : MonoBehaviour {
+public class StoryLoader : MonoBehaviour
+{
     //public static StoryLoader instance;
-    public string storyPath = "Assets/Resources/Stories/"; //Set Story TextFile's Location
     int storyPhase; //Choosing What Story
 
     public ArrayList story = new ArrayList(); //Story Array
@@ -19,7 +19,8 @@ public class StoryLoader : MonoBehaviour {
     private string chainingString;
     private int chainingStringIndex;
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         if (PlayerPrefs.HasKey("storyPhase")) //Initialization values
             storyPhase = PlayerPrefs.GetInt("storyPhase");
         else
@@ -28,9 +29,9 @@ public class StoryLoader : MonoBehaviour {
         isChainingDone = false;
         chainingStringIndex = 0;
 
-        SetStory();
+        SetStory(storyPhase.ToString() + ".txt");
         SetText();
-	}
+    }
 
     // Update is called once per frame
     void Update()
@@ -54,22 +55,27 @@ public class StoryLoader : MonoBehaviour {
 
     public void Vibrate()
     {
-        #if UNITY_ANDROID
+#if UNITY_ANDROID
         Handheld.Vibrate();
-        #endif
+#endif
     }
 
-    public void SetStory() //Reading StoryText at TextFile's Location
+    public void SetStory(string fileName) //Reading StoryText at TextFile's Location
     {
-        FileStream fs = new FileStream(storyPath + storyPhase + ".txt", FileMode.Open);
-        StreamReader sr = new StreamReader(fs);
-        string readStr;
-        while ((readStr = sr.ReadLine()) != null)
+        string path = pathForDocumentsFile("Resources/Stories/" + fileName);
+        if (File.Exists(path))
         {
-            story.Add(readStr);
+            FileStream file = new FileStream(path, FileMode.Open, FileAccess.Read);
+            StreamReader sr = new StreamReader(file);
+
+            string readStr = null;
+            while ((readStr = sr.ReadLine()) != null)
+            {
+                story.Add(readStr);
+            }
+            sr.Close();
+            file.Close();
         }
-        sr.Close();
-        fs.Close();
     }
 
     public void SetText()
@@ -97,5 +103,28 @@ public class StoryLoader : MonoBehaviour {
             yield return new WaitForSeconds(0.1f);
         } while (chainingStringIndex != chainingString.Length);
         isChainingDone = true;
+    }
+
+    public string pathForDocumentsFile(string filename)
+    {
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            string path = Application.dataPath.Substring(0, Application.dataPath.Length - 5);
+            path = path.Substring(0, path.LastIndexOf('/'));
+            return Path.Combine(Path.Combine(path, "Documents"), filename);
+        }
+
+        else if (Application.platform == RuntimePlatform.Android)
+        {
+            string path = Application.persistentDataPath;
+            path = path.Substring(0, path.LastIndexOf('/'));
+            return Path.Combine(path, filename);
+        }
+
+        else
+        {
+            string path = Application.dataPath;
+            return Path.Combine(path, filename);
+        }
     }
 }
