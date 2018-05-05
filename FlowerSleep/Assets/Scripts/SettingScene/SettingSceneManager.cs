@@ -72,4 +72,10 @@ public class SettingSceneManager : MonoBehaviour {
     {
         isSE_Mute = !isSE_Mute;
     }
+
+    public void ResetData()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene("MainScene");
+    }
 }

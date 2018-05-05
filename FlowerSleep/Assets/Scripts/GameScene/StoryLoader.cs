@@ -18,6 +18,9 @@ public class StoryLoader : MonoBehaviour
     private bool isChainingDone;
     private string chainingString;
     private int chainingStringIndex;
+
+    public Sprite[]CharacterImage = new Sprite[2];
+    public Image CharacterPos;
     // Use this for initialization
     void Start()
     {
@@ -55,7 +58,7 @@ public class StoryLoader : MonoBehaviour
 
     public void Vibrate()
     {
-#if UNITY_ANDROID
+#if UNITY_ANDROID || UNITY_IOS
         Handheld.Vibrate();
 #endif
     }
@@ -84,13 +87,27 @@ public class StoryLoader : MonoBehaviour
         if (tmp.Contains(":"))
         {
             string[] tmps = tmp.Split(':');
-            NameText.text = tmps[0].Trim();
+            if (PlayerPrefs.HasKey("name"))
+            {
+                switch (tmps[0].Trim())
+                {
+                    case "여주":
+                        NameText.text = PlayerPrefs.GetString("name");
+                        SetCharacter(1);
+                        break;
+                    default :
+                        NameText.text = tmps[0].Trim();
+                        SetCharacter(0);
+                        break;
+                }
+            }
             chainingString = tmps[1].Trim();
         }
         else
         {
             NameText.text = "";
             chainingString = tmp;
+            SetCharacter(0);
         }
         StartCoroutine("ChainingText");
     }
@@ -125,6 +142,18 @@ public class StoryLoader : MonoBehaviour
         {
             string path = Application.dataPath;
             return Path.Combine(path, filename);
+        }
+    }
+    
+    void SetCharacter(params int []who)
+    {
+        if(who.Length == 1)
+        {
+            CharacterPos.GetComponent<Image>().sprite = CharacterImage[who[0]];
+        }
+        else if(who.Length == 2)
+        {
+
         }
     }
 }

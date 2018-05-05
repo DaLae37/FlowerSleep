@@ -3,8 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class MainSceneManager : MonoBehaviour {
+    void Start()
+    {
+        if(!PlayerPrefs.HasKey("name"))
+        {
+            ProfileScene();
+        }
+    }
     public void GameScene()
     {
+        PlayerPrefs.SetInt("storyPhase", 0);
         SceneManager.LoadScene("GameScene");
     }
     public void LoadScene()
@@ -18,6 +26,10 @@ public class MainSceneManager : MonoBehaviour {
     public void GalleryScene()
     {
         SceneManager.LoadScene("GalleryScene");
+    }
+    public void ProfileScene()
+    {
+        SceneManager.LoadScene("ProfileScene");
     }
     void Update()
     {

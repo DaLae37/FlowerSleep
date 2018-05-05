@@ -20,3 +20,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GalleryScene.unity
     guid: 811833842378c40438459d9544b2b2be
+  - enabled: 1
+    path: Assets/Scenes/ProfileScene.unity
+    guid: aff8b75677176d342bb40446f7b4bcb8
