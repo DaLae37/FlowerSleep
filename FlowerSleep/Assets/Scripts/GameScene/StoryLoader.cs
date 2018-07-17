@@ -19,8 +19,9 @@ public class StoryLoader : MonoBehaviour
     private string chainingString;
     private int chainingStringIndex;
 
-    public Sprite[]CharacterImage = new Sprite[2];
+    public Sprite[]CharacterImage = new Sprite[5];
     public Image CharacterPos;
+
     // Use this for initialization
     void Start()
     {
@@ -32,7 +33,7 @@ public class StoryLoader : MonoBehaviour
         isChainingDone = false;
         chainingStringIndex = 0;
 
-        SetStory(storyPhase.ToString() + ".txt");
+        SetStory(storyPhase.ToString() + "");
         SetText();
     }
 
@@ -62,23 +63,18 @@ public class StoryLoader : MonoBehaviour
         Handheld.Vibrate();
 #endif
     }
-
+    
     public void SetStory(string fileName) //Reading StoryText at TextFile's Location
     {
-        string path = pathForDocumentsFile("Resources/Stories/" + fileName);
-        if (File.Exists(path))
-        {
-            FileStream file = new FileStream(path, FileMode.Open, FileAccess.Read);
-            StreamReader sr = new StreamReader(file);
+        TextAsset textAsset = (TextAsset)Resources.Load("Stories/" + fileName);
+        StringReader reader = new StringReader(textAsset.text);
 
-            string readStr = null;
-            while ((readStr = sr.ReadLine()) != null)
-            {
-                story.Add(readStr);
-            }
-            sr.Close();
-            file.Close();
+        string readStr = null;
+        while ((readStr = reader.ReadLine()) != null)
+        {
+            story.Add(readStr);
         }
+        reader.Close();
     }
 
     public void SetText()
@@ -87,20 +83,29 @@ public class StoryLoader : MonoBehaviour
         if (tmp.Contains(":"))
         {
             string[] tmps = tmp.Split(':');
-            if (PlayerPrefs.HasKey("name"))
+            NameText.text = tmps[0].Trim();
+            switch (tmps[0].Trim())
             {
-                switch (tmps[0].Trim())
-                {
-                    case "여주":
+                case "여주":
+                    if (PlayerPrefs.HasKey("name"))
                         NameText.text = PlayerPrefs.GetString("name");
-                        SetCharacter(1);
-                        break;
-                    default :
-                        NameText.text = tmps[0].Trim();
-                        SetCharacter(0);
-                        break;
-                }
+                    SetCharacter(1);
+                    break;
+                case "아버지":
+                    SetCharacter(2);
+                    break;
+                case "어머니":
+                    SetCharacter(3);
+                    break;
+                case "부모님":
+                    SetCharacter(4);
+                    break;
+                default:
+                    NameText.text = tmps[0].Trim();
+                    SetCharacter(0);
+                    break;
             }
+
             chainingString = tmps[1].Trim();
         }
         else
@@ -120,29 +125,6 @@ public class StoryLoader : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         } while (chainingStringIndex != chainingString.Length);
         isChainingDone = true;
-    }
-
-    public string pathForDocumentsFile(string filename)
-    {
-        if (Application.platform == RuntimePlatform.IPhonePlayer)
-        {
-            string path = Application.dataPath.Substring(0, Application.dataPath.Length - 5);
-            path = path.Substring(0, path.LastIndexOf('/'));
-            return Path.Combine(Path.Combine(path, "Documents"), filename);
-        }
-
-        else if (Application.platform == RuntimePlatform.Android)
-        {
-            string path = Application.persistentDataPath;
-            path = path.Substring(0, path.LastIndexOf('/'));
-            return Path.Combine(path, filename);
-        }
-
-        else
-        {
-            string path = Application.dataPath;
-            return Path.Combine(path, filename);
-        }
     }
     
     void SetCharacter(params int []who)
