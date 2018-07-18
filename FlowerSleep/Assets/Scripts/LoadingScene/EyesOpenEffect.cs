@@ -21,6 +21,6 @@ public class EyesOpenEffect : MonoBehaviour {
             Eyes.color = new Color(Eyes.color.r, Eyes.color.g, Eyes.color.b, Eyes.color.a - 0.01f);
             yield return new WaitForSeconds(0.015f);
         } while (Eyes.color.a > 0);
-        LoadingSceneManager.instance.MainScene();
+        LoadingSceneManager.instance.setIsEyesOpenFinish(true);
     }
 }

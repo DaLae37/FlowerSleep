@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class LoadingSceneManager : MonoBehaviour {
     public static LoadingSceneManager instance;
+    private bool isEyesOpenFinish = false;
+    private bool isButtonEffectFinish = false;
 	// Use this for initialization
 	void Start () {
         instance = this;
@@ -14,8 +16,19 @@ public class LoadingSceneManager : MonoBehaviour {
 		
 	}
 
+    public void setIsEyesOpenFinish(bool isEyesOpenFinish)
+    {
+        this.isEyesOpenFinish = isEyesOpenFinish;
+    }
+
+    public void setIsButtonEffectFinish(bool isButtonEffectFinish)
+    {
+        this.isButtonEffectFinish = isButtonEffectFinish;
+    }
+
     public void MainScene()
     {
-        SceneManager.LoadScene("MainScene");
+        if(isEyesOpenFinish && isButtonEffectFinish)
+            SceneManager.LoadScene("MainScene");
     }
 }

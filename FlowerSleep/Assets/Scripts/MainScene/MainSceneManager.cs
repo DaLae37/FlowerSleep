@@ -31,6 +31,14 @@ public class MainSceneManager : MonoBehaviour {
     {
         SceneManager.LoadScene("ProfileScene");
     }
+    public void StatusScene()
+    {
+        SceneManager.LoadScene("StatusScene");
+    }
+    public void MiniGameScene()
+    {
+        SceneManager.LoadScene("MiniGameScene");
+    }
     void Update()
     {
         if (Application.platform == RuntimePlatform.Android)

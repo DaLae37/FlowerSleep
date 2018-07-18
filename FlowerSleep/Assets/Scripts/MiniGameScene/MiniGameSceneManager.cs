@@ -3,22 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MiniGameSceneManager : MonoBehaviour {
-    public GameObject[] games = new GameObject[3];
-    // Use this for initialization
+    private static MiniGameSceneManager instance;
+
+    public GameObject[] miniGames = new GameObject[3];
+    public GameObject main;
+
     void Start()
     {
-        int len = games.Length, select = PlayerPrefs.GetInt("MiniGame");
-        for (int i = 0; i < games.Length; i++)
-        {
-            if (i == select)
-                games[i].SetActive(true);
-            else
-                games[i].SetActive(false);
-        }
+        instance = this;
     }
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
+    public MiniGameSceneManager getInstance()
+    {
+        return instance;
+    }
+
+    public void MiniGame1()
+    {
+        main.SetActive(false);
+        miniGames[0].SetActive(true);
+    }
+
+    public void MiniGame2()
+    {
+        main.SetActive(false);
+        miniGames[1].SetActive(true);
+    }
+
+    public void MiniGame3()
+    {
+        main.SetActive(false);
+        miniGames[2].SetActive(true);
+    }
 }

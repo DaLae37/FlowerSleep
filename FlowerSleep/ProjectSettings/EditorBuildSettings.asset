@@ -26,3 +26,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ProfileScene.unity
     guid: aff8b75677176d342bb40446f7b4bcb8
+  - enabled: 1
+    path: Assets/Scenes/StatusScene.unity
+    guid: 876121e291aab5a4b9254aff17a43474
+  - enabled: 1
+    path: Assets/Scenes/MiniGameScene.unity
+    guid: 699550c1fca704a4596b2726e8c8d173
+  m_configObjects: {}
