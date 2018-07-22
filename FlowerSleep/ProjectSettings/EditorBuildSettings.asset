@@ -32,4 +32,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MiniGameScene.unity
     guid: 699550c1fca704a4596b2726e8c8d173
+  - enabled: 1
+    path: Assets/Scenes/InvestingScene.unity
+    guid: 7121e0ea8e50b944094234b22336787d
+  - enabled: 1
+    path: Assets/Scenes/HomeScene.unity
+    guid: 33cb78391bbef1f4fa1b5522a9d2f8f6
   m_configObjects: {}

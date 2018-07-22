@@ -28,7 +28,7 @@ public class LoadingSceneManager : MonoBehaviour {
 
     public void MainScene()
     {
-        if(isEyesOpenFinish && isButtonEffectFinish)
+        //if(isEyesOpenFinish && isButtonEffectFinish)
             SceneManager.LoadScene("MainScene");
     }
 }

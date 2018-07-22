@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class MiniGameSceneManager : MonoBehaviour {
     private static MiniGameSceneManager instance;
 
@@ -12,7 +12,21 @@ public class MiniGameSceneManager : MonoBehaviour {
     {
         instance = this;
     }
+    void Update()
+    {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                MainScene();
+            }
+        }
+    }
 
+    public void MainScene()
+    {
+        SceneManager.LoadScene("MainScene");
+    }
     public MiniGameSceneManager getInstance()
     {
         return instance;

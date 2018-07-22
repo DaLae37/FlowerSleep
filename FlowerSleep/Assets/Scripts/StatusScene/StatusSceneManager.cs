@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 public class StatusSceneManager : MonoBehaviour {
     public Image[] bars = new Image[4];
+    public Text nameText;
+
     private static StatusSceneManager instance;
 
     private int aheadPoint;
@@ -13,12 +17,24 @@ public class StatusSceneManager : MonoBehaviour {
 	void Start () {
         instance = this;
         SetBars(75, 0);
+        nameText.text = PlayerPrefs.GetString("name");
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    void Update()
+    {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                MainScene();
+            }
+        }
+    }
+
+    public void MainScene()
+    {
+        SceneManager.LoadScene("MainScene");
+    }
 
     public StatusSceneManager getInstance()
     {

@@ -34,11 +34,16 @@ public class SettingSceneManager : MonoBehaviour {
         BGM_Mute.isOn = isBGM_Mute;
         SE_Mute.isOn = isSE_Mute;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-			
-	}
+    void Update()
+    {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                MainScene();
+            }
+        }
+    }
 
     public void MainScene()
     {
